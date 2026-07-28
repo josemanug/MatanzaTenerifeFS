@@ -15,6 +15,8 @@ public class User {
 
     private String username;
 
+    private String password;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "user_role",
@@ -26,9 +28,10 @@ public class User {
     public User() {
     }
 
-    public User(List<Role> roles, String username) {
+    public User(String username, String password, List<Role> roles) {
         this.roles = roles;
         this.username = username;
+        this.password = password;
     }
 
     public List<Role> getRoles() {
@@ -53,5 +56,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

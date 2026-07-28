@@ -23,7 +23,7 @@ public class RoleService implements IRoleService {
     public void createRole(Role role){
         roleRepository.save(role);
     }
-    
+
     // Comprobar si existe un rol
     public boolean existsByName(String name){
         return roleRepository.existsByName(name);
