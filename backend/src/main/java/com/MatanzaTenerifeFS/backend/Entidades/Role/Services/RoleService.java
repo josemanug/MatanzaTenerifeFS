@@ -5,6 +5,8 @@ import com.MatanzaTenerifeFS.backend.Entidades.Role.Models.Role;
 import com.MatanzaTenerifeFS.backend.Entidades.Role.Repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService implements IRoleService {
 
@@ -27,5 +29,9 @@ public class RoleService implements IRoleService {
     // Comprobar si existe un rol
     public boolean existsByName(String name){
         return roleRepository.existsByName(name);
+    }
+
+    public List<Role> getAllRole(String rolename){
+        return roleRepository.findAllByName(rolename);
     }
 }
