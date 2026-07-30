@@ -46,9 +46,9 @@ public class UserRoleSeeder implements CommandLineRunner {
             userService.createUser(user);
         }
 
-        if(!userService.existsUser("nikorgez")){
+        if(!userService.existsUser("nikorguez")){
             User user = new User(
-                    "nikorgez",
+                    "nikorguez",
                     "niko123!",
                     roleService.getAllRole("ROLE_SUPERVISOR")
             );
