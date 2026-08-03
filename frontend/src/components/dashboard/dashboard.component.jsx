@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../../main";
+import Header from "../header/header.component";
 
 function AdminDashboard({ user }) {
 
@@ -21,58 +22,63 @@ function AdminDashboard({ user }) {
     ];
 
     return (
-        <div>
+        <>
+            <Header />
 
-            {/* Header */}
-            <section className="text-center mb-5">
+            <div>
 
-                <h1 className="display-5 fw-bold">
-                    Panel de administrador
-                </h1>
+                {/* Header */}
+                <section className="text-center mb-5">
 
-                <p className="lead mt-3">
-                    Bienvenido. Gestiona toda la plataforma desde aquí.
-                </p>
+                    <h1 className="display-5 fw-bold">
+                        Panel de administrador
+                    </h1>
 
-            </section>
+                    <p className="lead mt-3">
+                        Bienvenido. Gestiona toda la plataforma desde aquí.
+                    </p>
 
-            {/* Cards */}
-            <section className="row g-4">
+                </section>
 
-                {cards.map((card, index) => (
+                {/* Cards */}
+                <section className="row g-4">
 
-                    <div className="col-md-6 col-lg-3" key={index}>
+                    {cards.map((card, index) => (
 
-                        <div className="card shadow-sm h-100 border-0">
+                        <div className="col-md-6 col-lg-3" key={index}>
 
-                            <div className="card-body d-flex flex-column">
+                            <div className="card shadow-sm h-100 border-0">
 
-                                <h3 className="card-title h5 fw-bold">
-                                    {card.title}
-                                </h3>
+                                <div className="card-body d-flex flex-column">
 
-                                <p className="card-text text-muted flex-grow-1">
-                                    {card.text}
-                                </p>
+                                    <h3 className="card-title h5 fw-bold">
+                                        {card.title}
+                                    </h3>
 
-                                <Link
-                                    to={card.path}
-                                    className={`btn btn-${card.color} mt-3`}
-                                >
-                                    {card.button}
-                                </Link>
+                                    <p className="card-text text-muted flex-grow-1">
+                                        {card.text}
+                                    </p>
+
+                                    <Link
+                                        to={card.path}
+                                        className={`btn btn-${card.color} mt-3`}
+                                    >
+                                        {card.button}
+                                    </Link>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                    ))}
 
-                ))}
+                </section>
 
-            </section>
+            </div>
+        </>
 
-        </div>
     );
 }
 
