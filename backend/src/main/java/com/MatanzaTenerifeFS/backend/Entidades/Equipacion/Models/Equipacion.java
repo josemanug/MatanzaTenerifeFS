@@ -16,6 +16,8 @@ public class Equipacion {
     @Column(unique = true)
     private String codEquipacion;
 
+    private String nombre;
+
     private int cantidadTotal;
 
     @ElementCollection
@@ -29,10 +31,10 @@ public class Equipacion {
     public Equipacion() {
     }
 
-    public Equipacion(Map<Talla, Integer> stockPorTalla, String codEquipacion, int cantidadTotal) {
+    public Equipacion(String codEquipacion, String nombre, Map<Talla, Integer> stockPorTalla) {
         this.stockPorTalla = stockPorTalla;
         this.codEquipacion = codEquipacion;
-        this.cantidadTotal = cantidadTotal;
+        this.nombre = nombre;
     }
 
     public int getCantidadTotal() {
@@ -41,6 +43,14 @@ public class Equipacion {
 
     public void setCantidadTotal(int cantidadTotal) {
         this.cantidadTotal = cantidadTotal;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getCodEquipacion() {

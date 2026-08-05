@@ -6,6 +6,7 @@ import java.util.Map;
 public record EquipacionResponse(
 
          String codEquipacion,
+         String nombre,
          int cantidadTotal,
          Map<Talla, Integer> stockPorTalla
 
