@@ -6,6 +6,7 @@ import Login from './components/login/login.component.jsx';
 import Dashboard from './components/dashboard/dashboard.component.jsx';
 import Equipacion from './components/equipacion/equipacion.component.jsx';
 import CreateEquipacion from './components/equipacion/crearEquipacion/createEquipacion.component.jsx';
+import DetallesEquipacion from './components/equipacion/detallesEquipacion/detalles.component.jsx'
 
 function Home() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/equipaciones" element={<Equipacion />} />
 
         <Route path="/equipaciones/create" element={<CreateEquipacion />} />
+        <Route path="/equipaciones/:id" element={<DetallesEquipacion />} />
       </Routes>
     </BrowserRouter>
   )

@@ -45,12 +45,7 @@ public class EquipacionService implements IEquipacionService {
         } else {
             throw new Exception("Código ya existente");
         }
-
-
     }
-
-
-
 
     // Obtener la lista con todas las equipaciones
     public List<EquipacionResponse> findAll(){
@@ -59,9 +54,15 @@ public class EquipacionService implements IEquipacionService {
                 .collect(Collectors.toList());
     }
 
+    // Obtener los detalles de una Equipación
+    public EquipacionResponse findById(int id){
+        Equipacion equipacion = equipacionRepository.findById(id).orElseThrow();
+        return mapEquipacionToDTO(equipacion);
+    }
 
 
-/*
+
+    /*
 *
 *   MAPPERS DE LA ENTIDAD
 *
@@ -71,6 +72,7 @@ public class EquipacionService implements IEquipacionService {
     // Mapper para pasar de Entidad a DTO.
     private EquipacionResponse mapEquipacionToDTO(Equipacion equipacion) {
         return new EquipacionResponse(
+                equipacion.getEquipacionId(),
                 equipacion.getCodEquipacion(),
                 equipacion.getNombre(),
                 equipacion.getCantidadTotal(),

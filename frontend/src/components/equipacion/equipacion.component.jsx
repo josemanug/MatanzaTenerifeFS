@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./equipacion.module.css";
 import { API_BASE_URL } from "../../main";
-import Header from "../header/header.component";    
+import Header from "../header/header.component";
 import { Link } from "react-router-dom";
 
 function Equipacion() {
@@ -48,9 +48,6 @@ function Equipacion() {
         return <p className={styles.loading}>Cargando equipaciones...</p>;
     }
 
-
-
-
     return (
         <>
 
@@ -74,12 +71,22 @@ function Equipacion() {
                 </thead>
 
                 <tbody>
+
                     {equipaciones.map((appt) => (
-                        <tr key={appt.id}>
-                            <td>{appt.codEquipacion}</td>
-                            <td>{appt.nombre}</td>
-                            <td>{appt.cantidadTotal}</td>
+
                         
+                        <tr key={appt.id}>
+                            <td>
+                                <Link to={`/equipaciones/${appt.id}`}>{appt.codEquipacion}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${appt.id}`}>{appt.nombre}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${appt.id}`}>{appt.cantidadTotal}</Link>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
