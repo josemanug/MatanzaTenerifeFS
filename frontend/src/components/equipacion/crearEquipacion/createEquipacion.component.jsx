@@ -104,7 +104,7 @@ const CreateEquipacion = (user) => {
                 stockPorTalla: {}
             });
         } catch (error) {
-            setServerError("Error al crear la equipación. Por favor, inténtelo de nuevo.");
+            setServerError(`${error}`);
         } finally {
             setLoading(false);
         }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 public record EquipacionResponse(
 
+        int id,
          String codEquipacion,
          String nombre,
          int cantidadTotal,

@@ -13,4 +13,6 @@ public interface IEquipacionService {
 
     List<EquipacionResponse> findAll();
 
+    EquipacionResponse findById(int id);
+
 }
