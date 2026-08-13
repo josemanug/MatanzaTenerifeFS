@@ -22,7 +22,7 @@ public class Equipacion {
 
     @ElementCollection
     @CollectionTable(name = "stock_tallas",
-            joinColumns = @JoinColumn(name = "codEquipacion"))
+            joinColumns = @JoinColumn(name = "equipacionId"))
     @MapKeyEnumerated(EnumType.STRING)
     @MapKeyColumn(name = "talla")
     @Column(name = "cantidad")
