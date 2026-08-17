@@ -2,11 +2,14 @@ package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Services;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionCreateDTO;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionResponse;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionUpdateDTO;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Interfaces.IEquipacionService;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Repositories.EquipacionRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,14 +35,7 @@ public class EquipacionService implements IEquipacionService {
             equipacion.setCodEquipacion(equipacionCreateDTO.codEquipacion());
             equipacion.setNombre(equipacionCreateDTO.nombre());
             equipacion.setStockPorTalla(equipacionCreateDTO.stockPorTalla());
-
-            int cantTotal = equipacionCreateDTO.stockPorTalla()
-                    .values()
-                    .stream()
-                    .mapToInt(Integer::intValue)
-                    .sum();
-
-            equipacion.setCantidadTotal(cantTotal);
+            equipacion.setCantidadTotal(totalEquipaciones(equipacionCreateDTO.stockPorTalla()));
 
             equipacionRepository.save(equipacion);
         } else {
@@ -60,13 +56,41 @@ public class EquipacionService implements IEquipacionService {
         return mapEquipacionToDTO(equipacion);
     }
 
+    // Actualizar una Equipación
+    public void updateEquipacion(int id, EquipacionUpdateDTO equipacionUpdateDTO) {
+        Equipacion equipacion = equipacionRepository.findById(id).orElseThrow();
+
+        equipacion.setNombre(equipacionUpdateDTO.nombre());
+        equipacion.setStockPorTalla(equipacionUpdateDTO.stockPorTalla());
+        equipacion.setCantidadTotal(totalEquipaciones(equipacionUpdateDTO.stockPorTalla()));
+
+        equipacionRepository.save(equipacion);
+
+    }
 
 
     /*
-*
-*   MAPPERS DE LA ENTIDAD
-*
-* */
+    *
+    *   MÉTODOS ADICIONALES
+    *
+    * */
+
+    // Método para calcular el total de equipaciones
+    private int totalEquipaciones(Map<Talla, Integer> tallas){
+
+        return tallas
+                .values()
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+
+    /*
+    *
+    *   MAPPERS DE LA ENTIDAD
+    *
+    * */
 
 
     // Mapper para pasar de Entidad a DTO.
