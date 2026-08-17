@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styles from "./createEquipacion.module.css";
+import styles from "./updateEquipacion.module.css";
 import { API_BASE_URL } from "../../../main";
 import Header from "../../header/header.component";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const CreateEquipacion = (user) => {
 
@@ -12,11 +12,13 @@ const CreateEquipacion = (user) => {
         stockPorTalla: {}
     });
 
+    const { id } = useParams();
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [serverError, setServerError] = useState(null);
     const [tallas, setTallas] = useState([]);
+    const [data, setData] = useState([]);
 
     const handleChange = (e) => {
         setFormData({
@@ -66,6 +68,31 @@ const CreateEquipacion = (user) => {
         fetchTallas();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch(`${API_BASE_URL}/equipaciones/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener la equipación")
+            }
+
+            const data = await response.json();
+            setData(data);
+
+            setFormData({
+                codEquipacion: data.codEquipacion || "",
+                nombre: data.nombre || "",
+                stockPorTalla: data.stockPorTalla || {}
+            })
+        };
+        fetchData();
+    }, [id]);
+
     const handleSubmit = async (e) => {
 
         e.preventDefault();
@@ -83,8 +110,8 @@ const CreateEquipacion = (user) => {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/equipaciones`, {
-                method: "POST",
+            const response = await fetch(`${API_BASE_URL}/equipaciones/${id}`, {
+                method: "PUT",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "application/json"
@@ -98,11 +125,6 @@ const CreateEquipacion = (user) => {
             }
 
             setSuccess(true);
-            setFormData({
-                codEquipacion: "",
-                nombre: "",
-                stockPorTalla: {}
-            });
         } catch (error) {
             setServerError(`${error}`);
         } finally {
@@ -116,7 +138,7 @@ const CreateEquipacion = (user) => {
             <Header />
 
             <div className={styles.container}>
-                <h2 className={styles.title}>Nueva Equipación</h2>
+                <h2 className={styles.title}>Actualizar Equipación</h2>
 
                 <form onSubmit={handleSubmit} className={styles.form}>
 
@@ -124,9 +146,10 @@ const CreateEquipacion = (user) => {
                         className={styles.input}
                         type="text"
                         name="codEquipacion"
-                        placeholder="codequipacion (CamAzulPor)"
+                        placeholder={`codEquipacion(${data.codEquipacion})`}
                         value={formData.codEquipacion}
                         onChange={handleChange}
+                        disabled
                     />
                     {errors.codEquipacion && <p className={styles.error}>{errors.codEquipacion}</p>}
 
@@ -134,7 +157,7 @@ const CreateEquipacion = (user) => {
                         className={styles.input}
                         type="text"
                         name="nombre"
-                        placeholder="nombre"
+                        placeholder={data.nombre}
                         value={formData.nombre}
                         onChange={handleChange}
                     />
@@ -149,7 +172,7 @@ const CreateEquipacion = (user) => {
                                     className={styles.stockInput}
                                     type="number"
                                     min="0"
-                                    value={formData.stockPorTalla[talla] || 0}
+                                    value={formData.stockPorTalla[talla] ?? 0}
                                     onChange={(e) =>
                                         handleStockChange(talla, e.target.value)
                                     }
@@ -158,13 +181,14 @@ const CreateEquipacion = (user) => {
                         ))
                     }
 
+
                     <button className={styles.button} type="submit" disabled={loading}>
-                        {loading ? "Creando nueva Equipación..." : "Crear nueva Equipación"}
+                        {loading ? "Actualizando Equipación..." : "Actualizar Equipación"}
                     </button>
 
                     {success && (
                         <p className={{ ...styles.message, color: "green" }}>
-                            Equipación creada correctamente
+                            Equipación actualizada correctamente
                         </p>
                     )}
 
@@ -176,7 +200,7 @@ const CreateEquipacion = (user) => {
 
                 </form>
 
-                <Link to="/equipaciones">
+                <Link to={`/equipaciones/${id}`}>
                     <button className={styles.loginBackButton}>
                         Volver atras
                     </button>

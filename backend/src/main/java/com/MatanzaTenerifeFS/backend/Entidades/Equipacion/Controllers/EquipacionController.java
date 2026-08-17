@@ -1,6 +1,7 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Controllers;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionCreateDTO;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionUpdateDTO;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Interfaces.IEquipacionService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,20 @@ public class EquipacionController {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(e);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e);
+        }
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> updateEquipacion(@PathVariable int id, @RequestBody EquipacionUpdateDTO equipacionUpdateDTO){
+        try {
+            equipacionService.updateEquipacion(id, equipacionUpdateDTO);
+            return ResponseEntity
+                    .status(HttpStatus.OK).build();
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

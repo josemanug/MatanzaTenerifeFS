@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Detalles = () => {
 
-    const { id } = useParams()
+    const { id } = useParams();
     const [details, setDetails] = useState();
     const [loading, setLoading] = useState(true);
     const [serverError, setServerError] = useState(null);
@@ -57,6 +57,12 @@ const Detalles = () => {
             <Header />
 
             <h1>{details.nombre} ({details.cantidadTotal})</h1>
+
+            <Link to={`/equipaciones/update/${id}`}>
+                            <button className="btn btn-primary" type="subbmit">
+                                Actualizar Equipación
+                            </button>
+                        </Link>
 
             <table className={styles.table}>
                 <thead>
