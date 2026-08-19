@@ -20,18 +20,21 @@ public class Equipacion {
 
     private int cantidadTotal;
 
+    private int cantidadDisponible;
+
     @ElementCollection
-    @CollectionTable(name = "stock_tallas",
-            joinColumns = @JoinColumn(name = "equipacionId"))
+    @CollectionTable(
+            name = "stock_tallas",
+            joinColumns = @JoinColumn(name = "equipacionId")
+    )
     @MapKeyEnumerated(EnumType.STRING)
     @MapKeyColumn(name = "talla")
-    @Column(name = "cantidad")
-    private Map<Talla, Integer> stockPorTalla = new HashMap<>();
+    private Map<Talla, StockPorTalla> stockPorTalla = new HashMap<>();
 
     public Equipacion() {
     }
 
-    public Equipacion(String codEquipacion, String nombre, Map<Talla, Integer> stockPorTalla) {
+    public Equipacion(String codEquipacion, String nombre, Map<Talla, StockPorTalla> stockPorTalla) {
         this.stockPorTalla = stockPorTalla;
         this.codEquipacion = codEquipacion;
         this.nombre = nombre;
@@ -69,11 +72,19 @@ public class Equipacion {
         this.equipacionId = equipacionId;
     }
 
-    public Map<Talla, Integer> getStockPorTalla() {
+    public Map<Talla, StockPorTalla> getStockPorTalla() {
         return stockPorTalla;
     }
 
-    public void setStockPorTalla(Map<Talla, Integer> stockPorTalla) {
+    public void setStockPorTalla(Map<Talla, StockPorTalla> stockPorTalla) {
         this.stockPorTalla = stockPorTalla;
+    }
+
+    public int getCantidadDisponible() {
+        return cantidadDisponible;
+    }
+
+    public void setCantidadDisponible(int cantidadDisponible) {
+        this.cantidadDisponible = cantidadDisponible;
     }
 }
