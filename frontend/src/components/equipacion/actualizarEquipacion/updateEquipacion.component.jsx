@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../../main";
 import Header from "../../header/header.component";
 import { Link, useParams } from "react-router-dom";
 
-const CreateEquipacion = (user) => {
+const UpdateEquipacion = (user) => {
 
     const [formData, setFormData] = useState({
         codEquipacion: "",
@@ -46,12 +46,37 @@ const CreateEquipacion = (user) => {
     }
 
     const handleStockChange = (talla, cantidad) => {
-        setFormData({
-            ...formData, stockPorTalla: {
-                ...formData.stockPorTalla, [talla]: Number(cantidad)
+    const nuevoTotal = Number(cantidad);
+
+    setFormData(prev => {
+        const stockActual = prev.stockPorTalla[talla];
+
+        const totalAnterior = stockActual?.cantidadTotal ?? 0;
+        const disponibleAnterior = stockActual?.cantidadDisponible ?? 0;
+
+        const diferencia = nuevoTotal - totalAnterior;
+
+        let nuevaDisponible = disponibleAnterior;
+
+        // Si aumenta el total, las nuevas unidades entran
+        // directamente en el almacén.
+        if (diferencia > 0) {
+            nuevaDisponible = disponibleAnterior + diferencia;
+        }
+
+        // Si disminuye el total, no modificamos disponible.
+        return {
+            ...prev,
+            stockPorTalla: {
+                ...prev.stockPorTalla,
+                [talla]: {
+                    cantidadTotal: nuevoTotal,
+                    cantidadDisponible: nuevaDisponible
+                }
             }
-        });
-    };
+        };
+    });
+};
 
     useEffect(() => {
         const fetchTallas = async () => {
@@ -172,7 +197,7 @@ const CreateEquipacion = (user) => {
                                     className={styles.stockInput}
                                     type="number"
                                     min="0"
-                                    value={formData.stockPorTalla[talla] ?? 0}
+                                    value={formData.stockPorTalla[talla]?.cantidadTotal ?? 0}
                                     onChange={(e) =>
                                         handleStockChange(talla, e.target.value)
                                     }
@@ -211,4 +236,4 @@ const CreateEquipacion = (user) => {
     )
 }
 
-export default CreateEquipacion;
+export default UpdateEquipacion;

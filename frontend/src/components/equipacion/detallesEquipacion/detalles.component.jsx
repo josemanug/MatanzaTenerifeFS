@@ -58,6 +58,9 @@ const Detalles = () => {
 
             <h1>{details.nombre} ({details.cantidadTotal})</h1>
 
+            <p> Total: {details.cantidadTotal}</p>
+            <p> Disponible: {details.cantidadDisponible}</p>
+
             <Link to={`/equipaciones/update/${id}`}>
                             <button className="btn btn-primary" type="subbmit">
                                 Actualizar Equipación
@@ -69,13 +72,15 @@ const Detalles = () => {
                     <tr>
                         <th>Talla</th>
                         <th>Cantidad</th>
+                        <th>Disponible</th>
                     </tr>
                 </thead>
                 <tbody>
                     {Object.entries(details.stockPorTalla).map(([talla, cantidad]) => (
                         <tr key={talla}>
                             <td>{talla}</td>
-                            <td>{cantidad}</td>
+                            <td>{cantidad.cantidadTotal}</td>
+                            <td>{cantidad.cantidadDisponible}</td>
                         </tr>
                     ))}
 
