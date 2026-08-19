@@ -46,7 +46,12 @@ const CreateEquipacion = (user) => {
     const handleStockChange = (talla, cantidad) => {
         setFormData({
             ...formData, stockPorTalla: {
-                ...formData.stockPorTalla, [talla]: Number(cantidad)
+                ...formData.stockPorTalla, 
+                [talla]: {
+                    ...formData.stockPorTalla[talla],
+                    cantidadTotal: Number(cantidad),
+                    cantidadDisponible: Number(cantidad)
+                }
             }
         });
     };
@@ -149,7 +154,7 @@ const CreateEquipacion = (user) => {
                                     className={styles.stockInput}
                                     type="number"
                                     min="0"
-                                    value={formData.stockPorTalla[talla] || 0}
+                                    value={formData.stockPorTalla[talla]?.cantidadTotal || 0}
                                     onChange={(e) =>
                                         handleStockChange(talla, e.target.value)
                                     }
