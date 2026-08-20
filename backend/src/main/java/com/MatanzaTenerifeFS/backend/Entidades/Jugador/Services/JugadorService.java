@@ -1,6 +1,7 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Services;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces.IJugadorService;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Repositories.JugadorRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JugadorService implements IJugadorService {
@@ -32,6 +34,13 @@ public class JugadorService implements IJugadorService {
         }
     }
 
+    // Obtener un listado con los datos de los jugadores
+    public List<JugadorResponse> findAll(){
+        return jugadorRepository.findAll()
+                .stream()
+                .map(this::mapJugadorToDTO)
+                .collect(Collectors.toList());
+    }
 
     // Crear un nuevo jugador
     public void createJugador(CreateJugadorRequest createJugadorRequest) throws Exception {
@@ -43,6 +52,7 @@ public class JugadorService implements IJugadorService {
                     createJugadorRequest.dni(),
                     createJugadorRequest.categoria()
             );
+            saveJugador(jugador);
         } else {
             throw new Exception("Jugador ya existente");
         }
@@ -87,5 +97,21 @@ public class JugadorService implements IJugadorService {
 
     }
 
+    /*
+    *
+    * Mappers de la Entidad
+    *
+    * */
+
+    private JugadorResponse mapJugadorToDTO(Jugador jugador) {
+        return new JugadorResponse(
+                jugador.getPlayerId(),
+                jugador.getNombre(),
+                jugador.getDorsal(),
+                jugador.getTelefono(),
+                jugador.getCategoria(),
+                jugador.getDni()
+        );
+    }
 
 }

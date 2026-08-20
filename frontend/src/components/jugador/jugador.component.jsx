@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import styles from "./equipacion.module.css";
+import styles from "./jugador.module.css";
 import { API_BASE_URL } from "../../main";
 import Header from "../header/header.component";
 import { Link } from "react-router-dom";
 
-function Equipacion() {
+function Jugador() {
 
-    const [equipaciones, setEquipaciones] = useState([]);
+    const [jugadores, setJugadores] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
@@ -17,9 +17,9 @@ function Equipacion() {
             return;
         }
 
-        const fetchEquipaciones = async () => {
+        const fetchJugador = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/equipaciones`, {
+                const response = await fetch(`${API_BASE_URL}/jugador`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function Equipacion() {
                 }
 
                 const data = await response.json();
-                setEquipaciones(data);
+                setJugadores(data);
 
             } catch (error) {
                 console.error(error);
@@ -40,12 +40,12 @@ function Equipacion() {
             }
         };
 
-        fetchEquipaciones();
+        fetchJugador();
 
     }, []);
 
     if (loading) {
-        return <p className={styles.loading}>Cargando equipaciones...</p>;
+        return <p className={styles.loading}>Cargando jugadores...</p>;
     }
 
     return (
@@ -53,39 +53,39 @@ function Equipacion() {
 
             <Header />
 
-            <h1>Listado de equipaciones</h1>
+            <h1>Listado de jugadores</h1>
 
-            <Link to="/equipaciones/create">
+            <Link to="/jugadores/create">
                 <button className="btn btn-primary" type="subbmit">
-                    Crear Equipación
+                    Nuevo Jugador
                 </button>
             </Link>
 
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Código equipación</th>
                         <th>Nombre</th>
-                        <th>Cantidad Total</th>
+                        <th>Categoría</th>
+                        <th>Dorsal</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
-                    {equipaciones.map((appt) => (
+                    {jugadores.map((appt) => (
 
                         
                         <tr key={appt.id}>
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.codEquipacion}</Link>
+                                <Link to={`/jugadores/${appt.id}`}>{appt.nombre}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.nombre}</Link>
+                                <Link to={`/jugadores/${appt.id}`}>{appt.categoria}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.cantidadTotal}</Link>
+                                <Link to={`/jugadores/${appt.id}`}>{appt.dorsal}</Link>
                             </td>
                         </tr>
                     ))}
@@ -96,4 +96,4 @@ function Equipacion() {
     )
 }
 
-export default Equipacion;
+export default Jugador;
