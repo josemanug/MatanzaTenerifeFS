@@ -7,7 +7,9 @@ import Dashboard from './components/dashboard/dashboard.component.jsx';
 import Equipacion from './components/equipacion/equipacion.component.jsx';
 import CreateEquipacion from './components/equipacion/crearEquipacion/createEquipacion.component.jsx';
 import DetallesEquipacion from './components/equipacion/detallesEquipacion/detalles.component.jsx';
-import UpdateEquipacion from './components/equipacion/actualizarEquipacion/updateEquipacion.component.jsx'
+import UpdateEquipacion from './components/equipacion/actualizarEquipacion/updateEquipacion.component.jsx';
+
+import Jugador from "./components/jugador/jugador.component.jsx";
 
 function Home() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/equipaciones/create" element={<CreateEquipacion />} />
         <Route path="/equipaciones/:id" element={<DetallesEquipacion />} />
         <Route path="/equipaciones/update/:id" element={<UpdateEquipacion />} />
+
+        <Route path="/jugadores" element={<Jugador />} />
       </Routes>
     </BrowserRouter>
   )
