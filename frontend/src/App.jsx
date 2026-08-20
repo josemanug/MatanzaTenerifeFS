@@ -10,6 +10,7 @@ import DetallesEquipacion from './components/equipacion/detallesEquipacion/detal
 import UpdateEquipacion from './components/equipacion/actualizarEquipacion/updateEquipacion.component.jsx';
 
 import Jugador from "./components/jugador/jugador.component.jsx";
+import DetallesJugador from "./components/jugador/detallesJugador/detalles.component.jsx";
 
 function Home() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/equipaciones/update/:id" element={<UpdateEquipacion />} />
 
         <Route path="/jugadores" element={<Jugador />} />
+        <Route path="/jugadores/:id" element={<DetallesJugador />} />
       </Routes>
     </BrowserRouter>
   )

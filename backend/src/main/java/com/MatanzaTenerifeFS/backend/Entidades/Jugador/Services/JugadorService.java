@@ -42,6 +42,11 @@ public class JugadorService implements IJugadorService {
                 .collect(Collectors.toList());
     }
 
+    // Obtener un jugador por la ID
+    public JugadorResponse findById(int id){
+        return mapJugadorToDTO(jugadorRepository.findById(id).orElseThrow());
+    }
+
     // Crear un nuevo jugador
     public void createJugador(CreateJugadorRequest createJugadorRequest) throws Exception {
         if(!jugadorRepository.existsByDni(createJugadorRequest.dni())){

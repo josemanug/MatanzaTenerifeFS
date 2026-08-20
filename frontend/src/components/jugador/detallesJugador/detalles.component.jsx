@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import{ useEffect, useState } from "react";
 import styles from "./detalles.module.css";
 import { API_BASE_URL } from "../../../main";
 import Header from "../../header/header.component";
 import { Link, useParams } from "react-router-dom";
 
 
-const Detalles = () => {
+const DetallesJugador = () => {
 
     const { id } = useParams();
-    const [details, setDetails] = useState();
+    const [jugador, setJugador] = useState();
     const [loading, setLoading] = useState(true);
     const [serverError, setServerError] = useState(null);
+
 
     useEffect(() => {
 
@@ -21,9 +22,9 @@ const Detalles = () => {
             return;
         }
 
-        const fetchDetails = async () => {
+        const fetchJugador = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/equipaciones/${id}`, {
+                const response = await fetch(`${API_BASE_URL}/jugadores/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
@@ -31,11 +32,11 @@ const Detalles = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error("Error al obtener la equipación")
+                    throw new Error("Error al obtener el jugador")
                 }
 
                 const data = await response.json();
-                setDetails(data);
+                setJugador(data);
 
             } catch (error) {
                 setServerError(`${error}`);
@@ -44,55 +45,55 @@ const Detalles = () => {
             }
         };
 
-        fetchDetails();
+        fetchJugador();
 
-    }, []);
+    }, [id]);
 
     if (loading) {
-        return <p className={styles.loading}>Cargando detalles de la equipación...</p>;
+        return <p className={styles.loading}>Cargando detalles del Jugador...</p>;
     }
+
 
     return (
         <>
             <Header />
 
-            <h1>{details.nombre} ({details.cantidadTotal})</h1>
+            <h1>{jugador.nombre}</h1>
 
-            <p> Total: {details.cantidadTotal}</p>
-            <p> Disponible: {details.cantidadDisponible}</p>
-
-            <Link to={`/equipaciones/update/${id}`}>
-                            <button className="btn btn-primary" type="submit">
-                                Actualizar Equipación
+            <Link to={`/jugadores/update/${id}`}>
+                            <button className="btn btn-primary" type="subbmit">
+                                Actualizar Jugador
                             </button>
                         </Link>
 
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Talla</th>
-                        <th>Cantidad</th>
-                        <th>Disponible</th>
+                        <th>Nombre</th>
+                        <th>Dorsal</th>
+                        <th>Teléfono</th>
+                        <th>DNI</th>
+                        <th>Categoría</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.entries(details.stockPorTalla).map(([talla, cantidad]) => (
-                        <tr key={talla}>
-                            <td>{talla}</td>
-                            <td>{cantidad.cantidadTotal}</td>
-                            <td>{cantidad.cantidadDisponible}</td>
-                        </tr>
-                    ))}
+                    <tr key={jugador.playerId}>
+                        <td>{jugador.nombre}</td>
+                        <td>{jugador.dorsal}</td>
+                        <td>{jugador.telefono}</td>
+                        <td>{jugador.dni}</td>
+                        <td>{jugador.categoria}</td>
+                    </tr>
 
                 </tbody>
 
             </table>
 
-            <Link to="/equipaciones">
+            <Link to="/jugadores">
                 <p>Volver al listado</p>
             </Link>
         </>
     )
 }
 
-export default Detalles;
+export default DetallesJugador;
