@@ -19,7 +19,7 @@ function Jugador() {
 
         const fetchJugador = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/jugador`, {
+                const response = await fetch(`${API_BASE_URL}/jugadores`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function Jugador() {
             <h1>Listado de jugadores</h1>
 
             <Link to="/jugadores/create">
-                <button className="btn btn-primary" type="subbmit">
+                <button className="btn btn-primary" type="submit">
                     Nuevo Jugador
                 </button>
             </Link>
@@ -72,20 +72,20 @@ function Jugador() {
 
                 <tbody>
 
-                    {jugadores.map((appt) => (
+                    {jugadores.map((jugador) => (
 
                         
-                        <tr key={appt.id}>
+                        <tr key={jugador.platerId}>
                             <td>
-                                <Link to={`/jugadores/${appt.id}`}>{appt.nombre}</Link>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.nombre}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/jugadores/${appt.id}`}>{appt.categoria}</Link>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.categoria}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/jugadores/${appt.id}`}>{appt.dorsal}</Link>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.dorsal}</Link>
                             </td>
                         </tr>
                     ))}
