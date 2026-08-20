@@ -15,4 +15,6 @@ public interface IJugadorService {
     void saveJugador(Jugador jugador);
 
     List<JugadorResponse> findAll();
+
+    JugadorResponse findById(int id);
 }
