@@ -18,23 +18,26 @@ public class Jugador {
 
     private int telefono;
 
-    private Categoria categoria;
+    private String categoria;
+
+    private String dni;
 
     public Jugador() {
     }
 
-    public Jugador(Categoria categoria, String nombre, int playerId, int telefono) {
+    public Jugador( String nombre, int dorsal, int telefono, String dni, String categoria) {
         this.categoria = categoria;
         this.nombre = nombre;
-        this.playerId = playerId;
+        this.dni = dni;
         this.telefono = telefono;
+        this.dorsal = dorsal;
     }
 
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
@@ -68,5 +71,13 @@ public class Jugador {
 
     public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 }
