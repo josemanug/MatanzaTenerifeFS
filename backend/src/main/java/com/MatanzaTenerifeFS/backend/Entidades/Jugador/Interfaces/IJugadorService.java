@@ -17,4 +17,6 @@ public interface IJugadorService {
     List<JugadorResponse> findAll();
 
     JugadorResponse findById(int id);
+
+    List<String> findCategorias();
 }
