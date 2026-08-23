@@ -2,6 +2,7 @@ package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.UpdateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IJugadorService {
     JugadorResponse findById(int id);
 
     List<String> findCategorias();
+
+    void updateJugador(UpdateJugadorRequest updateJugadorRequest, int id);
 }

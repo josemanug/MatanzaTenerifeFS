@@ -2,12 +2,11 @@ package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Services;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.UpdateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces.IJugadorService;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Repositories.JugadorRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +68,18 @@ public class JugadorService implements IJugadorService {
         } else {
             throw new Exception("Jugador ya existente");
         }
+    }
+
+    public void updateJugador(UpdateJugadorRequest updateJugadorRequest, int id){
+        Jugador jugador = jugadorRepository.findById(id).orElseThrow();
+
+        jugador.setNombre(updateJugadorRequest.nombre());
+        jugador.setDorsal(updateJugadorRequest.dorsal());
+        jugador.setTelefono(updateJugadorRequest.telefono());
+        jugador.setCategoria(updateJugadorRequest.categoria());
+        jugador.setDni(updateJugadorRequest.dni());
+
+        saveJugador(jugador);
     }
 
     /*
