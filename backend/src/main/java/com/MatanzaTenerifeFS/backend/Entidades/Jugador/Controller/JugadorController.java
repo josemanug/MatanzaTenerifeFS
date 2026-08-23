@@ -1,13 +1,11 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Controller;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces.IJugadorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/jugadores")
@@ -42,6 +40,20 @@ public class JugadorController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
+                    .body(e);
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> createJugador(@RequestBody CreateJugadorRequest createJugadorRequest){
+        try{
+            jugadorService.createJugador(createJugadorRequest);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
                     .body(e);
         }
     }
