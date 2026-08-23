@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class JugadorService implements IJugadorService {
 
+    // Array con las posibles categorías
+    private List<String> categorias = List.of(
+            "SegundaB", "Tercera", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín");
+
     private final JugadorRepository jugadorRepository;
 
     public JugadorService(JugadorRepository jugadorRepository) {
@@ -27,10 +31,10 @@ public class JugadorService implements IJugadorService {
 
     // Guradar un jugador
     public void saveJugador(Jugador jugador){
-        if(isValidDni(jugador.getDni()) || isValidCategoria(jugador.getCategoria())){
+        if(isValidDni(jugador.getDni())){
             jugadorRepository.save(jugador);
         } else {
-            throw new IllegalArgumentException("El DNI o la categoría no son válidas");
+            throw new IllegalArgumentException("El DNI no son válido");
         }
     }
 
@@ -42,6 +46,10 @@ public class JugadorService implements IJugadorService {
                 .collect(Collectors.toList());
     }
 
+    public List<String> findCategorias(){
+        return categorias;
+    }
+
     // Obtener un jugador por la ID
     public JugadorResponse findById(int id){
         return mapJugadorToDTO(jugadorRepository.findById(id).orElseThrow());
@@ -49,7 +57,7 @@ public class JugadorService implements IJugadorService {
 
     // Crear un nuevo jugador
     public void createJugador(CreateJugadorRequest createJugadorRequest) throws Exception {
-        if(!jugadorRepository.existsByDni(createJugadorRequest.dni())){
+        if (!jugadorRepository.existsByDni(createJugadorRequest.dni())){
             Jugador jugador = new Jugador(
                     createJugadorRequest.nombre(),
                     createJugadorRequest.dorsal(),
@@ -62,8 +70,6 @@ public class JugadorService implements IJugadorService {
             throw new Exception("Jugador ya existente");
         }
     }
-
-
 
     /*
     *
@@ -89,18 +95,6 @@ public class JugadorService implements IJugadorService {
         return dni.charAt(8) == expectedLetter;
     }
 
-    // Si la categoría es válida
-
-    private boolean isValidCategoria(String categoria){
-        // Array con las posibles categorías
-        List<String> categorias = List.of(
-                "SegundaB", "Tercera", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín"
-        );
-
-        return categorias.contains(categoria);
-
-
-    }
 
     /*
     *
