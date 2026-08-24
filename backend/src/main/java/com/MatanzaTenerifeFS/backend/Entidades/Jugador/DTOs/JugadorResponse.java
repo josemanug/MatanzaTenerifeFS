@@ -1,6 +1,8 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs;
 
 
+import java.util.List;
+
 public record JugadorResponse(
         int playerId,
 
@@ -12,6 +14,8 @@ public record JugadorResponse(
 
         String categoria,
 
-        String dni
+        String dni,
+
+        List<EquipacionNavigation> equipacionNavigations
 ) {
 }

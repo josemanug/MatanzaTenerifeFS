@@ -2,6 +2,8 @@ package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.StockPorTalla;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
+
+import java.util.List;
 import java.util.Map;
 
 public record EquipacionResponse(
@@ -11,7 +13,8 @@ public record EquipacionResponse(
          String nombre,
          int cantidadTotal,
          int cantidadDisponible,
-         Map<Talla, StockPorTalla> stockPorTalla
+         Map<Talla, StockPorTalla> stockPorTalla,
+        List<JugadorNavigation> jugadorNavigations
 
 ) {
 }

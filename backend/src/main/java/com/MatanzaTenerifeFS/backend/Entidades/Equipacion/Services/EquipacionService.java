@@ -3,11 +3,13 @@ package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Services;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionCreateDTO;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionUpdateDTO;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.JugadorNavigation;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Interfaces.IEquipacionService;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.StockPorTalla;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Repositories.EquipacionRepository;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.EquipacionNavigation;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -164,13 +166,23 @@ public class EquipacionService implements IEquipacionService {
 
     // Mapper para pasar de Entidad a DTO.
     private EquipacionResponse mapEquipacionToDTO(Equipacion equipacion) {
+        List<JugadorNavigation> jugadorNavigation =
+                equipacion.getJugadores().stream()
+                                .map(j -> new JugadorNavigation(
+                                        j.getPlayerId(),
+                                        j.getNombre(),
+                                        j.getDorsal(),
+                                        j.getCategoria()
+                                )).toList();
         return new EquipacionResponse(
                 equipacion.getEquipacionId(),
                 equipacion.getCodEquipacion(),
                 equipacion.getNombre(),
                 equipacion.getCantidadTotal(),
                 equipacion.getCantidadDisponible(),
-                equipacion.getStockPorTalla()
+                equipacion.getStockPorTalla(),
+                jugadorNavigation
+
         );
     }
 }

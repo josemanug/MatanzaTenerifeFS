@@ -1,7 +1,9 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,9 @@ public class Equipacion {
     @MapKeyEnumerated(EnumType.STRING)
     @MapKeyColumn(name = "talla")
     private Map<Talla, StockPorTalla> stockPorTalla = new HashMap<>();
+
+    @ManyToMany(mappedBy = "equipaciones")
+    private List<Jugador> jugadores = new ArrayList<>();
 
     public Equipacion() {
     }
@@ -86,5 +91,13 @@ public class Equipacion {
 
     public void setCantidadDisponible(int cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 }

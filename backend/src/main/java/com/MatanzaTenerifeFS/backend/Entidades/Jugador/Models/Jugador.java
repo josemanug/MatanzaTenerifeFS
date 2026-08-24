@@ -1,9 +1,10 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Jugador {
@@ -21,6 +22,14 @@ public class Jugador {
     private String categoria;
 
     private String dni;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "equipacion_jugador",
+            joinColumns = @JoinColumn(name = "playerId"),
+            inverseJoinColumns = @JoinColumn(name = "equipacionId")
+    )
+    private List<Equipacion> equipaciones = new ArrayList<>();
 
     public Jugador() {
     }
@@ -79,5 +88,13 @@ public class Jugador {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public List<Equipacion> getEquipaciones() {
+        return equipaciones;
+    }
+
+    public void setEquipaciones(List<Equipacion> equipaciones) {
+        this.equipaciones = equipaciones;
     }
 }
