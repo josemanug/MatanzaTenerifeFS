@@ -1,5 +1,6 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import jakarta.persistence.*;
 
@@ -23,13 +24,12 @@ public class Jugador {
 
     private String dni;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
-    @JoinTable(
-            name = "equipacion_jugador",
-            joinColumns = @JoinColumn(name = "playerId"),
-            inverseJoinColumns = @JoinColumn(name = "equipacionId")
+    @OneToMany(
+            mappedBy = "jugador",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private List<Equipacion> equipaciones = new ArrayList<>();
+    private List<AsignacionEquipacion> asignaciones = new ArrayList<>();
 
     public Jugador() {
     }
@@ -90,11 +90,11 @@ public class Jugador {
         this.dni = dni;
     }
 
-    public List<Equipacion> getEquipaciones() {
-        return equipaciones;
+    public List<AsignacionEquipacion> getAsignaciones() {
+        return asignaciones;
     }
 
-    public void setEquipaciones(List<Equipacion> equipaciones) {
-        this.equipaciones = equipaciones;
+    public void setAsignaciones(List<AsignacionEquipacion> asignaciones) {
+        this.asignaciones = asignaciones;
     }
 }

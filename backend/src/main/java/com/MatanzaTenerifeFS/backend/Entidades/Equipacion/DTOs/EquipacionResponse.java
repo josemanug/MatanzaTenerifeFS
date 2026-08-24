@@ -8,13 +8,13 @@ import java.util.Map;
 
 public record EquipacionResponse(
 
-        int id,
-         String codEquipacion,
-         String nombre,
-         int cantidadTotal,
-         int cantidadDisponible,
-         Map<Talla, StockPorTalla> stockPorTalla,
-        List<JugadorNavigation> jugadorNavigations
+        int equipacionId,
+        String codEquipacion,
+        String nombre,
+        int cantidadTotal,
+        int cantidadDisponible,
+        Map<Talla, StockPorTalla> stockPorTalla,
+        List<JugadorAsignadoResponse> jugadorAsignadoResponse
 
 ) {
 }

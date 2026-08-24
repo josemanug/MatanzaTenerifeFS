@@ -1,7 +1,7 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Services;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
-import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.EquipacionNavigation;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.EquipacionAsignadaResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.UpdateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces.IJugadorService;
@@ -115,13 +115,14 @@ public class JugadorService implements IJugadorService {
     * */
 
     private JugadorResponse mapJugadorToDTO(Jugador jugador) {
-        List<EquipacionNavigation> equipacionNavigations =
-                jugador.getEquipaciones().stream()
-                        .map(e -> new EquipacionNavigation(
-                                e.getEquipacionId(),
-                                e.getCodEquipacion(),
-                                e.getNombre()
-                        )).toList();
+        List<EquipacionAsignadaResponse> equipaciones =
+                jugador.getAsignaciones().stream()
+                        .map( e -> new EquipacionAsignadaResponse(
+                                e.getEquipacion().getEquipacionId(),
+                                e.getEquipacion().getNombre(),
+                                e.getTalla(),
+                                e.getFechaAsignacion()
+                                )).toList();
 
         return new JugadorResponse(
                 jugador.getPlayerId(),
@@ -130,7 +131,7 @@ public class JugadorService implements IJugadorService {
                 jugador.getTelefono(),
                 jugador.getCategoria(),
                 jugador.getDni(),
-                equipacionNavigations
+                equipaciones
         );
     }
 

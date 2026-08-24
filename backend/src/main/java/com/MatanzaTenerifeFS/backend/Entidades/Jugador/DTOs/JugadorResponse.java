@@ -5,17 +5,11 @@ import java.util.List;
 
 public record JugadorResponse(
         int playerId,
-
         String nombre,
-
         int dorsal,
-
         int telefono,
-
         String categoria,
-
         String dni,
-
-        List<EquipacionNavigation> equipacionNavigations
+        List<EquipacionAsignadaResponse> equipacionAsignadaResponse
 ) {
 }
