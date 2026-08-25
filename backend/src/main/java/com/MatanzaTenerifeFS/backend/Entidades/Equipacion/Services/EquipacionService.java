@@ -3,6 +3,7 @@ package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Services;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionCreateDTO;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.EquipacionUpdateDTO;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.DTOs.JugadorAsignadoResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Interfaces.IEquipacionService;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.StockPorTalla;
@@ -36,8 +37,6 @@ public class EquipacionService implements IEquipacionService {
             equipacion.setCodEquipacion(equipacionCreateDTO.codEquipacion());
             equipacion.setNombre(equipacionCreateDTO.nombre());
             equipacion.setStockPorTalla(equipacionCreateDTO.stockPorTalla());
-            equipacion.setCantidadTotal(totalEquipaciones(equipacionCreateDTO.stockPorTalla()));
-            equipacion.setCantidadDisponible(equipacionesDisponibles(equipacionCreateDTO.stockPorTalla()));
             equipacionRepository.save(equipacion);
         } else {
             throw new Exception("Código ya existente");
@@ -121,38 +120,11 @@ public class EquipacionService implements IEquipacionService {
         // Set de los campos
         equipacion.setNombre(equipacionUpdateDTO.nombre());
         equipacion.setStockPorTalla(equipacionUpdateDTO.stockPorTalla());
-        equipacion.setCantidadTotal(totalEquipaciones(equipacion.getStockPorTalla()));
-        equipacion.setCantidadDisponible(equipacionesDisponibles(equipacion.getStockPorTalla()));
         equipacionRepository.save(equipacion);
 
     }
 
 
-    /*
-    *
-    *   MÉTODOS ADICIONALES
-    *
-    * */
-
-    // Método para calcular el total de equipaciones
-    private int totalEquipaciones(Map<Talla, StockPorTalla> tallas){
-
-        return tallas
-                .values()
-                .stream()
-                .mapToInt(StockPorTalla::getCantidadTotal)
-                .sum();
-    }
-
-    // Método para calcular las equipaciones disponibles
-    private int equipacionesDisponibles(Map<Talla, StockPorTalla> tallas){
-
-        return tallas
-                .values()
-                .stream()
-                .mapToInt(StockPorTalla::getCantidadDisponible)
-                .sum();
-    }
 
 
     /*
@@ -164,13 +136,25 @@ public class EquipacionService implements IEquipacionService {
 
     // Mapper para pasar de Entidad a DTO.
     private EquipacionResponse mapEquipacionToDTO(Equipacion equipacion) {
+        List<JugadorAsignadoResponse> jugadores =
+                equipacion.getAsignaciones().stream()
+                        .map(j -> new JugadorAsignadoResponse(
+                                j.getJugador().getPlayerId(),
+                                j.getJugador().getNombre(),
+                                j.getJugador().getDorsal(),
+                                j.getJugador().getCategoria(),
+                                j.getTalla(),
+                                j.getFechaAsignacion()
+                        )).toList();
+
         return new EquipacionResponse(
                 equipacion.getEquipacionId(),
                 equipacion.getCodEquipacion(),
                 equipacion.getNombre(),
-                equipacion.getCantidadTotal(),
-                equipacion.getCantidadDisponible(),
-                equipacion.getStockPorTalla()
+                equipacion.cantidadTotal(),
+                equipacion.cantidadDisponible(),
+                equipacion.getStockPorTalla(),
+                jugadores
         );
     }
 }

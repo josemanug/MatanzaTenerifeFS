@@ -1,7 +1,10 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +21,21 @@ public class Equipacion {
 
     private String nombre;
 
-    private int cantidadTotal;
+    public int cantidadTotal(){
+        return stockPorTalla
+                .values()
+                .stream()
+                .mapToInt(StockPorTalla::getCantidadTotal)
+                .sum();
+    };
 
-    private int cantidadDisponible;
+    public int cantidadDisponible(){
+        return stockPorTalla
+                .values()
+                .stream()
+                .mapToInt(StockPorTalla::getCantidadDisponible)
+                .sum();
+    };
 
     @ElementCollection
     @CollectionTable(
@@ -31,6 +46,13 @@ public class Equipacion {
     @MapKeyColumn(name = "talla")
     private Map<Talla, StockPorTalla> stockPorTalla = new HashMap<>();
 
+    @OneToMany(
+            mappedBy = "equipacion",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<AsignacionEquipacion> asignaciones = new ArrayList<>();
+
     public Equipacion() {
     }
 
@@ -40,13 +62,6 @@ public class Equipacion {
         this.nombre = nombre;
     }
 
-    public int getCantidadTotal() {
-        return cantidadTotal;
-    }
-
-    public void setCantidadTotal(int cantidadTotal) {
-        this.cantidadTotal = cantidadTotal;
-    }
 
     public String getNombre() {
         return nombre;
@@ -80,11 +95,11 @@ public class Equipacion {
         this.stockPorTalla = stockPorTalla;
     }
 
-    public int getCantidadDisponible() {
-        return cantidadDisponible;
+    public List<AsignacionEquipacion> getAsignaciones() {
+        return asignaciones;
     }
 
-    public void setCantidadDisponible(int cantidadDisponible) {
-        this.cantidadDisponible = cantidadDisponible;
+    public void setAsignaciones(List<AsignacionEquipacion> asignaciones) {
+        this.asignaciones = asignaciones;
     }
 }

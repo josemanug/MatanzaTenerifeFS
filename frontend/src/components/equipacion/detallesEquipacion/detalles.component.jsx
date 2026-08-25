@@ -88,6 +88,51 @@ const Detalles = () => {
 
             </table>
 
+            <br/>
+
+            <h2>Jugadores</h2>
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dorsal</th>
+                        <th>Categoria</th>
+                        <th>Talla</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {details.jugadorAsignadoResponse.map((jugador) => (
+                        <tr key={jugador.playerId}>
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.nombre}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.dorsal}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.categoria}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.talla}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.fechaAsignacion}</Link>
+                            </td>
+
+                        </tr>
+                    ))}
+
+                </tbody>
+
+            </table>
+
+
+
             <Link to="/equipaciones">
                 <p>Volver al listado</p>
             </Link>

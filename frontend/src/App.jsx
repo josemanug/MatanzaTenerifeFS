@@ -13,6 +13,7 @@ import Jugador from "./components/jugador/jugador.component.jsx";
 import DetallesJugador from "./components/jugador/detallesJugador/detalles.component.jsx";
 import CreateJugador from "./components/jugador/crearJugador/createJugador.component.jsx";
 import UpdateJugador from "./components/jugador/actualizarJugador/updateJugador.component.jsx";
+import AsignarEquipacion from "./components/jugador/asignarEquipacion/asignarEquipacion.component.jsx";
 
 function Home() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/jugadores/:id" element={<DetallesJugador />} />
         <Route path="/jugadores/create" element={<CreateJugador />} />
         <Route path="/jugadores/update/:id" element={<UpdateJugador />} />
+        <Route path="/asignar/:id" element={<AsignarEquipacion />} />
       </Routes>
     </BrowserRouter>
   )
