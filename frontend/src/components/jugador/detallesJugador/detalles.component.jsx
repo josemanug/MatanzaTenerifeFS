@@ -1,4 +1,4 @@
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./detalles.module.css";
 import { API_BASE_URL } from "../../../main";
 import Header from "../../header/header.component";
@@ -61,10 +61,10 @@ const DetallesJugador = () => {
             <h1>{jugador.nombre}</h1>
 
             <Link to={`/jugadores/update/${id}`}>
-                            <button className="btn btn-primary" type="subbmit">
-                                Actualizar Jugador
-                            </button>
-                        </Link>
+                <button className="btn btn-primary" type="subbmit">
+                    Actualizar Jugador
+                </button>
+            </Link>
 
             <table className={styles.table}>
                 <thead>
@@ -84,6 +84,39 @@ const DetallesJugador = () => {
                         <td>{jugador.dni}</td>
                         <td>{jugador.categoria}</td>
                     </tr>
+
+                </tbody>
+
+            </table>
+
+            <br />
+
+            <h2>Equipaciones</h2>
+
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Talla</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {jugador.equipacionAsignadaResponse.map((equipacion) => (
+                        <tr key={equipacion.equipacionId}>
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.nombre}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.talla}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.fechaAsignacion}</Link>
+                            </td>
+                        </tr>
+                    ))}
 
                 </tbody>
 

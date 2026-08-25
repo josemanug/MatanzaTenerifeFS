@@ -77,15 +77,15 @@ function Equipacion() {
                         
                         <tr key={appt.id}>
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.codEquipacion}</Link>
+                                <Link to={`/equipaciones/${appt.equipacionId}`}>{appt.codEquipacion}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.nombre}</Link>
+                                <Link to={`/equipaciones/${appt.equipacionId}`}>{appt.nombre}</Link>
                             </td>
 
                             <td>
-                                <Link to={`/equipaciones/${appt.id}`}>{appt.cantidadTotal}</Link>
+                                <Link to={`/equipaciones/${appt.equipacionId}`}>{appt.cantidadTotal}</Link>
                             </td>
                         </tr>
                     ))}
