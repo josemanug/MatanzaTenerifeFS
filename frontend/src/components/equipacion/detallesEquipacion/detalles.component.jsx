@@ -88,6 +88,8 @@ const Detalles = () => {
 
             </table>
 
+            <br/>
+
             <h2>Jugadores</h2>
             <table className={styles.table}>
                 <thead>

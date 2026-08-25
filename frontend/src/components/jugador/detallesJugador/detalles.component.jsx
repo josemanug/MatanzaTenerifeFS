@@ -93,6 +93,12 @@ const DetallesJugador = () => {
 
             <h2>Equipaciones</h2>
 
+            <Link to={`/asignar/${id}`}>
+                <button className="btn btn-primary" type="subbmit">
+                    Asignar Equipación
+                </button>
+            </Link>
+
             <table className={styles.table}>
                 <thead>
                     <tr>
