@@ -1,9 +1,11 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
+import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Jugador {
@@ -21,6 +23,13 @@ public class Jugador {
     private String categoria;
 
     private String dni;
+
+    @OneToMany(
+            mappedBy = "jugador",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<AsignacionEquipacion> asignaciones = new ArrayList<>();
 
     public Jugador() {
     }
@@ -79,5 +88,13 @@ public class Jugador {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public List<AsignacionEquipacion> getAsignaciones() {
+        return asignaciones;
+    }
+
+    public void setAsignaciones(List<AsignacionEquipacion> asignaciones) {
+        this.asignaciones = asignaciones;
     }
 }
