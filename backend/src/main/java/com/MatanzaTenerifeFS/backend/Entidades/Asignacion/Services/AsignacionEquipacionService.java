@@ -24,7 +24,7 @@ public class AsignacionEquipacionService implements IAsignacionEquipacionService
         this.asignacionEquipacionRepository = asignacionEquipacionRepository;
     }
 
-    public AsignacionEquipacion asignarEquipacion(int jugadorId,int equipacionId, Talla talla) {
+    public void asignarEquipacion(int jugadorId,int equipacionId, Talla talla) {
 
         // Obtengo el jugador
         Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow(() ->
@@ -52,6 +52,6 @@ public class AsignacionEquipacionService implements IAsignacionEquipacionService
 
         AsignacionEquipacion asignacion = new AsignacionEquipacion(equipacion, jugador, talla);
 
-        return asignacionEquipacionRepository.save(asignacion);
+        asignacionEquipacionRepository.save(asignacion);
     }
 }

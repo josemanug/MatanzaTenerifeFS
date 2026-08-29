@@ -2,6 +2,7 @@ package com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
+import com.MatanzaTenerifeFS.backend.Entidades.Recogida.Models.RecogidaEquipacion;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -53,6 +54,13 @@ public class Equipacion {
     )
     private List<AsignacionEquipacion> asignaciones = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "equipacion",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<RecogidaEquipacion> recogidas = new ArrayList<>();
+
     public Equipacion() {
     }
 
@@ -101,5 +109,13 @@ public class Equipacion {
 
     public void setAsignaciones(List<AsignacionEquipacion> asignaciones) {
         this.asignaciones = asignaciones;
+    }
+
+    public List<RecogidaEquipacion> getRecogidas() {
+        return recogidas;
+    }
+
+    public void setRecogidas(List<RecogidaEquipacion> recogidas) {
+        this.recogidas = recogidas;
     }
 }

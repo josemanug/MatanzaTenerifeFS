@@ -1,7 +1,7 @@
-package com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Controller;
+package com.MatanzaTenerifeFS.backend.Entidades.Recogida.Controller;
 
-import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.DTOs.AsignacionEquipacionRequest;
-import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Interfaces.IAsignacionEquipacionService;
+import com.MatanzaTenerifeFS.backend.Entidades.Recogida.DTOs.RecogidaEquipacionRequest;
+import com.MatanzaTenerifeFS.backend.Entidades.Recogida.Interfaces.IRecogidaEquipacionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/recogidas")
 @PreAuthorize("isAuthenticated()")
-@RequestMapping("/api/v1/asignaciones")
-public class AsignacionEquipacionController {
+public class RecogidaEquipacionController {
 
-    private final IAsignacionEquipacionService asignacionEquipacionService;
+    private final IRecogidaEquipacionService recogidaEquipacionService;
 
-    public AsignacionEquipacionController(IAsignacionEquipacionService asignacionEquipacionService) {
-        this.asignacionEquipacionService = asignacionEquipacionService;
+    public RecogidaEquipacionController(IRecogidaEquipacionService recogidaEquipacionService) {
+        this.recogidaEquipacionService = recogidaEquipacionService;
     }
 
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> asignarEquipacion(@RequestBody AsignacionEquipacionRequest request){
+    public ResponseEntity<?> recogerEquipacion(@RequestBody RecogidaEquipacionRequest request){
         try{
-            asignacionEquipacionService.asignarEquipacion(
+            recogidaEquipacionService.recogerEquipacion(
                     request.playerId(),
                     request.equipacionId(),
                     request.talla()
@@ -37,6 +37,5 @@ public class AsignacionEquipacionController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(e);
         }
-
     }
 }
