@@ -1,4 +1,4 @@
-package com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models;
+package com.MatanzaTenerifeFS.backend.Entidades.Recogida.Models;
 
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class AsignacionEquipacion {
+public class RecogidaEquipacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +24,16 @@ public class AsignacionEquipacion {
     @Enumerated(EnumType.STRING)
     private Talla talla;
 
-    private LocalDateTime fechaAsignacion;
+    private LocalDateTime fechaRecogida;
 
-    @Enumerated(EnumType.STRING)
-    private Estado estado;
-
-    public AsignacionEquipacion() {
+    public RecogidaEquipacion() {
     }
 
-    public AsignacionEquipacion(Equipacion equipacion, Jugador jugador, Talla talla) {
+    public RecogidaEquipacion(Equipacion equipacion, Jugador jugador, Talla talla) {
         this.equipacion = equipacion;
         this.jugador = jugador;
         this.talla = talla;
-        this.fechaAsignacion = LocalDateTime.now();
+        this.fechaRecogida = LocalDateTime.now();
     }
 
     public Equipacion getEquipacion() {
@@ -47,12 +44,12 @@ public class AsignacionEquipacion {
         this.equipacion = equipacion;
     }
 
-    public LocalDateTime getFechaAsignacion() {
-        return fechaAsignacion;
+    public LocalDateTime getFechaRecogida() {
+        return fechaRecogida;
     }
 
-    public void setFechaAsignacion(LocalDateTime fechaAsignacion) {
-        this.fechaAsignacion = fechaAsignacion;
+    public void setFechaRecogida(LocalDateTime fechaRecogida) {
+        this.fechaRecogida = fechaRecogida;
     }
 
     public int getId() {
@@ -77,13 +74,5 @@ public class AsignacionEquipacion {
 
     public void setTalla(Talla talla) {
         this.talla = talla;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
 }

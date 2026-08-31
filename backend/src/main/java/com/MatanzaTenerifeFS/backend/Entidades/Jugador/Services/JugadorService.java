@@ -1,9 +1,8 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Services;
 
-import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
-import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.EquipacionAsignadaResponse;
-import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
-import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.UpdateJugadorRequest;
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.Estado;
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.*;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces.IJugadorService;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Repositories.JugadorRepository;
@@ -115,7 +114,7 @@ public class JugadorService implements IJugadorService {
     * */
 
     private JugadorResponse mapJugadorToDTO(Jugador jugador) {
-        List<EquipacionAsignadaResponse> equipaciones =
+        List<EquipacionAsignadaResponse> equipacionesAsignadas =
                 jugador.getAsignaciones().stream()
                         .map( e -> new EquipacionAsignadaResponse(
                                 e.getEquipacion().getEquipacionId(),
@@ -124,6 +123,15 @@ public class JugadorService implements IJugadorService {
                                 e.getFechaAsignacion()
                                 )).toList();
 
+        List<EquipacionRecogidaResponse> equipacionesRecogidas =
+                jugador.getRecogidas().stream()
+                        .map( e -> new EquipacionRecogidaResponse(
+                                e.getEquipacion().getEquipacionId(),
+                                e.getEquipacion().getNombre(),
+                                e.getTalla(),
+                                e.getFechaRecogida()
+                        )).toList();
+
         return new JugadorResponse(
                 jugador.getPlayerId(),
                 jugador.getNombre(),
@@ -131,7 +139,16 @@ public class JugadorService implements IJugadorService {
                 jugador.getTelefono(),
                 jugador.getCategoria(),
                 jugador.getDni(),
-                equipaciones
+                equipacionesAsignadas,
+                equipacionesRecogidas
+        );
+    }
+
+    private AsignadasResponse mapToAsignadasResponse(AsignacionEquipacion asignacionEquipacion) {
+        return new AsignadasResponse(
+                asignacionEquipacion.getEquipacion().getNombre(),
+                asignacionEquipacion.getTalla(),
+                asignacionEquipacion.getFechaAsignacion()
         );
     }
 

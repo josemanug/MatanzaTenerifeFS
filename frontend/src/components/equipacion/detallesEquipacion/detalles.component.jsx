@@ -99,6 +99,7 @@ const Detalles = () => {
                         <th>Categoria</th>
                         <th>Talla</th>
                         <th>Fecha</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +122,11 @@ const Detalles = () => {
                             </td>
 
                             <td>
-                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.fechaAsignacion}</Link>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{new Date(jugador.fechaAsignacion).toLocaleString("es-Es")}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/jugadores/${jugador.playerId}`}>{jugador.estado}</Link>
                             </td>
 
                         </tr>
