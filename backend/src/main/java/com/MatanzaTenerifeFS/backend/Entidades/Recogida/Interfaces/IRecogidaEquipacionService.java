@@ -5,5 +5,5 @@ import com.MatanzaTenerifeFS.backend.Entidades.Recogida.Models.RecogidaEquipacio
 
 public interface IRecogidaEquipacionService {
 
-    void recogerEquipacion(int jugadorId, int equipacionId, Talla talla) throws Exception;
+    void recogerEquipacion(int jugadorId, int asignacionId);
 }

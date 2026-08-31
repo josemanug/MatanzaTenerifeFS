@@ -27,8 +27,7 @@ public class RecogidaEquipacionController {
         try{
             recogidaEquipacionService.recogerEquipacion(
                     request.playerId(),
-                    request.equipacionId(),
-                    request.talla()
+                    request.asignacionId()
             );
             return ResponseEntity
                     .status(HttpStatus.OK).build();

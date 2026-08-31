@@ -4,6 +4,5 @@ import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
 
 public record RecogidaEquipacionRequest(
         int playerId,
-        int equipacionId,
-        Talla talla
+        int asignacionId
 ) {}

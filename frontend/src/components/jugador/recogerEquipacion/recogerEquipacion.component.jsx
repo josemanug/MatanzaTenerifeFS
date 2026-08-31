@@ -10,34 +10,52 @@ const RecogerEquipacion = () => {
 
     const [formData, setFormData] = useState({
         playerId: id,
-        equipacionId: "",
-        talla: ""
+        asigancionId: ""
     });
 
-    const [jugador, setJugador] = useState([]);
+    const [equipacionesAsignadas, setEquipacionesAsignadas] = useState([]);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [serverError, setServerError] = useState(null);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "equipacionId") {
+            const asignacionSeleccionada = equipacionesAsignadas.find(
+                (asignacion) => asignacion.id.toString() === value
+            );
+
+            setFormData({
+                ...formData,
+                equipacionId: asignacionSeleccionada?.equipacionId || "",
+                talla: asignacionSeleccionada?.talla || ""
+            });
+
+            return;
+        }
+
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [name]: value
         });
     };
 
+
+
+
     useEffect(() => {
-        const fecthJugador = async () => {
-            const response = await fetch(`${API_BASE_URL}/jugador/${id}`, {
+        const fecthEquipacionesAsignadas = async () => {
+            const response = await fetch(`${API_BASE_URL}/asignaciones/${id}/asignadas`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
             const data = await response.json();
-            setJugador(data);
+            setEquipacionesAsignadas(data);
         };
-        fecthJugador();
+        fecthEquipacionesAsignadas();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -90,44 +108,28 @@ const RecogerEquipacion = () => {
 
                     <select
                         className={styles.input}
-                        name="equipacionId"
-                        value={formData.equipacionId}
+                        name="asignacionId"
+                        value={formData.asignacionId}
                         onChange={handleChange}
                     >
-                        <option value="">Selecciona una equipación</option>
+                        <option value="">
+                            Selecciona una equipación
+                        </option>
 
-                        {jugador.equipacionAsignadaResponse.map((equipacion) => (
-                            <option key={equipacion.equipacionId} 
-                            value={equipacion.equipacionId}>
-                                {equipacion.nombre}
+                        {equipacionesAsignadas.map((asignacion) => (
+                            <option
+                                key={asignacion.id}
+                                value={asignacion.id}
+                            >
+                                {asignacion.nombre} - Talla {asignacion.talla}
                             </option>
                         ))}
                     </select>
 
-                    <select
-                        className={styles.input}
-                        name="talla"
-                        value={formData.talla}
-                        onChange={handleChange}
-                    >
-                        <option value="">Selecciona una talla</option>
-
-                        {equipacionSeleccionada &&
-                            Object.entries(equipacionSeleccionada.stockPorTalla)
-                                .filter(([_, stock]) => stock.cantidadDisponible > 0)
-                                .map(([talla, stock]) => (
-                                    <option key={talla} value={talla}>
-                                        {talla} ({stock.cantidadDisponible})
-                                    </option>
-                                ))}
-                    </select>
-
-
-
 
 
                     <button className={styles.button} type="submit" disabled={loading}>
-                        {loading ? "Asignando equipación..." : "Asignar equipación"}
+                        {loading ? "Recogiendo equipación..." : "Recoger equipación"}
                     </button>
 
                     {success && (

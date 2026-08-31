@@ -71,6 +71,8 @@ public class AsignacionEquipacionService implements IAsignacionEquipacionService
 
     private AsignacionEquipacionResponse mapToAsignacionEquipacionResponse(AsignacionEquipacion asignacionEquipacion) {
         return new AsignacionEquipacionResponse(
+                asignacionEquipacion.getId(),
+                asignacionEquipacion.getEquipacion().getEquipacionId(),
                 asignacionEquipacion.getEquipacion().getNombre(),
                 asignacionEquipacion.getTalla()
         );

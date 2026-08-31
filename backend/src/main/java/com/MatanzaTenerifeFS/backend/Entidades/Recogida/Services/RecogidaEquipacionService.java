@@ -19,44 +19,49 @@ import org.springframework.stereotype.Service;
 public class RecogidaEquipacionService implements IRecogidaEquipacionService {
 
     private final RecogidaEquipacionRepository recogidaEquipacionRepository;
-    private final JugadorRepository jugadorRepository;
-    private final EquipacionRepository equipacionRepository;
     private final AsignacionEquipacionRepository asignacionEquipacionRepository;
 
-    public RecogidaEquipacionService(RecogidaEquipacionRepository recogidaEquipacionRepository, JugadorRepository jugadorRepository, EquipacionRepository equipacionRepository, AsignacionEquipacionRepository asignacionEquipacionRepository) {
+    public RecogidaEquipacionService(RecogidaEquipacionRepository recogidaEquipacionRepository, AsignacionEquipacionRepository asignacionEquipacionRepository) {
         this.recogidaEquipacionRepository = recogidaEquipacionRepository;
-        this.jugadorRepository = jugadorRepository;
-        this.equipacionRepository = equipacionRepository;
         this.asignacionEquipacionRepository = asignacionEquipacionRepository;
     }
 
     // Método para la recogida de equipaciones
     @Transactional
-    public void recogerEquipacion(int jugadorId, int equipacionId, Talla talla) throws Exception {
+    public void recogerEquipacion(int jugadorId, int asignacionId) {
 
-        // Busco las asignaciones que el jugador posee
-        try{
-            AsignacionEquipacion asignacion = asignacionEquipacionRepository.findByJugador_PlayerIdAndEquipacion_EquipacionIdAndTallaAndEstado(
-                    jugadorId, equipacionId, talla, Estado.ENTREGADA
-            );
+        AsignacionEquipacion asignacion = asignacionEquipacionRepository.findById(asignacionId)
+                        .orElseThrow(() -> new RuntimeException("Asignación no encontrada"));
 
-            // Cambio el estado de la asignación
-            asignacion.setEstado(Estado.DEVUELTA);
-
-            // Creo el registro de la recogida
-            RecogidaEquipacion recogida = new RecogidaEquipacion(
-                    asignacion.getEquipacion(),
-                    asignacion.getJugador(),
-                    asignacion.getTalla()
-            );
-
-            // Guardo la recogida
-            recogidaEquipacionRepository.save(recogida);
-
-        } catch (RuntimeException e) {
-            throw new RuntimeException("El jugador no posee esa equipación. " + e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (asignacion.getJugador().getPlayerId() != jugadorId) {
+            throw new RuntimeException("El jugador no posee esa asignación");
         }
+
+        if (asignacion.getEstado() != Estado.ENTREGADA) {
+            throw new RuntimeException("La equipación no está en estado ENTREGADA");
+        }
+
+        Equipacion equipacion = asignacion.getEquipacion();
+        Talla talla = asignacion.getTalla();
+
+        asignacion.setEstado(Estado.DEVUELTA);
+
+        StockPorTalla stock =
+                equipacion.getStockPorTalla().get(talla);
+
+        if (stock == null) {
+            throw new RuntimeException("La equipación no tiene stock para la talla " + talla);
+        }
+
+        stock.setCantidadDisponible(stock.getCantidadDisponible() + 1);
+
+        RecogidaEquipacion recogida = new RecogidaEquipacion(
+                        equipacion,
+                        asignacion.getJugador(),
+                        talla
+                );
+
+        recogidaEquipacionRepository.save(recogida);
     }
+
 }
