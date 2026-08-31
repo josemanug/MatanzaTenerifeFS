@@ -1,5 +1,6 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Jugador.Interfaces;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.AsignadasResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.CreateJugadorRequest;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.JugadorResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.DTOs.UpdateJugadorRequest;

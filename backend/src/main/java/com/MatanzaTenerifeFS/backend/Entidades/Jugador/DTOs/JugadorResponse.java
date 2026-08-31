@@ -10,6 +10,7 @@ public record JugadorResponse(
         int telefono,
         String categoria,
         String dni,
-        List<EquipacionAsignadaResponse> equipacionAsignadaResponse
+        List<EquipacionAsignadaResponse> equipacionAsignadaResponse,
+        List<EquipacionRecogidaResponse> equipacionRecogidaResponse
 ) {
 }

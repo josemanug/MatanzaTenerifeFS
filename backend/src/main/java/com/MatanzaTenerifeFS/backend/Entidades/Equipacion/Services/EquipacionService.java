@@ -144,7 +144,8 @@ public class EquipacionService implements IEquipacionService {
                                 j.getJugador().getDorsal(),
                                 j.getJugador().getCategoria(),
                                 j.getTalla(),
-                                j.getFechaAsignacion()
+                                j.getFechaAsignacion(),
+                                j.getEstado()
                         )).toList();
 
         return new EquipacionResponse(
