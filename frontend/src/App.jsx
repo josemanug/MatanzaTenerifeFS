@@ -14,6 +14,7 @@ import DetallesJugador from "./components/jugador/detallesJugador/detalles.compo
 import CreateJugador from "./components/jugador/crearJugador/createJugador.component.jsx";
 import UpdateJugador from "./components/jugador/actualizarJugador/updateJugador.component.jsx";
 import AsignarEquipacion from "./components/jugador/asignarEquipacion/asignarEquipacion.component.jsx";
+import RecogerEquipacion from "./components/jugador/recogerEquipacion/recogerEquipacion.component.jsx";
 
 function Home() {
   return (
@@ -43,7 +44,9 @@ function App() {
         <Route path="/jugadores/:id" element={<DetallesJugador />} />
         <Route path="/jugadores/create" element={<CreateJugador />} />
         <Route path="/jugadores/update/:id" element={<UpdateJugador />} />
+
         <Route path="/asignar/:id" element={<AsignarEquipacion />} />
+        <Route path="/recoger/:id" element={<RecogerEquipacion />} />
       </Routes>
     </BrowserRouter>
   )

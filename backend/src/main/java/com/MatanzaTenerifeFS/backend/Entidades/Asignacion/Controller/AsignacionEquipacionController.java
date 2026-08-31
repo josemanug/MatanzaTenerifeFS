@@ -5,10 +5,7 @@ import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Interfaces.IAsignacion
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
@@ -38,5 +35,18 @@ public class AsignacionEquipacionController {
                     .body(e);
         }
 
+    }
+
+    @GetMapping("/{playerId}/asignadas")
+    public ResponseEntity<?> asignadasPorJugador(@PathVariable int playerId){
+        try{
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(asignacionEquipacionService.obtenerEquipacionesPendientes(playerId));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e);
+        }
     }
 }

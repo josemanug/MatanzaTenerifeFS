@@ -93,13 +93,24 @@ const DetallesJugador = () => {
 
             <h2>Equipaciones</h2>
 
-            <Link to={`/asignar/${id}`}>
-                <button className="btn btn-primary" type="subbmit">
-                    Asignar Equipación
-                </button>
-            </Link>
+            <div className={styles.botones}>
+                <Link to={`/asignar/${id}`}>
+                    <button className="btn btn-primary" type="subbmit">
+                        Asignar Equipación
+                    </button>
+                </Link>
 
+                <Link to={`/recoger/${id}`}>
+                    <button className="btn btn-primary" type="subbmit">
+                        Recoger Equipación
+                    </button>
+                </Link>
+            </div>
+
+
+            <h3>Asignadas</h3>
             <table className={styles.table}>
+
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -119,13 +130,43 @@ const DetallesJugador = () => {
                             </td>
 
                             <td>
-                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.fechaAsignacion}</Link>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{new Date(equipacion.fechaAsignacion).toLocaleString("es-Es")}</Link>
                             </td>
                         </tr>
                     ))}
 
                 </tbody>
 
+            </table>
+
+            <br />
+            <h3>Recogidas</h3>
+            <table className={styles.table}>
+
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Talla</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {jugador.equipacionRecogidaResponse.map((equipacion) => (
+                        <tr key={equipacion.equipacionId}>
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.nombre}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{equipacion.talla}</Link>
+                            </td>
+
+                            <td>
+                                <Link to={`/equipaciones/${equipacion.equipacionId}`}>{new Date(equipacion.fechaRecogida).toLocaleString("es-Es")}</Link>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
 
             <Link to="/jugadores">

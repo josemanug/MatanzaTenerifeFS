@@ -27,3 +27,9 @@
 .table tr:hover {
     background-color: #f9f9f9;
 }
+
+.botones {
+    display:flex;
+    flex-direction: row;
+    gap: 10px;
+}

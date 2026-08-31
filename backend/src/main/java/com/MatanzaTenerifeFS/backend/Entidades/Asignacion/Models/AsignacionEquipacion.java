@@ -4,7 +4,6 @@ import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Talla;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +25,9 @@ public class AsignacionEquipacion {
     private Talla talla;
 
     private LocalDateTime fechaAsignacion;
+
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
     public AsignacionEquipacion() {
     }
@@ -75,5 +77,13 @@ public class AsignacionEquipacion {
 
     public void setTalla(Talla talla) {
         this.talla = talla;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }

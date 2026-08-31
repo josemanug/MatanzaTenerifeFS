@@ -1,7 +1,9 @@
 package com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Services;
 
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.DTOs.AsignacionEquipacionResponse;
 import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Interfaces.IAsignacionEquipacionService;
 import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.AsignacionEquipacion;
+import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Models.Estado;
 import com.MatanzaTenerifeFS.backend.Entidades.Asignacion.Repositories.AsignacionEquipacionRepository;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.Equipacion;
 import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Models.StockPorTalla;
@@ -10,6 +12,9 @@ import com.MatanzaTenerifeFS.backend.Entidades.Equipacion.Repositories.Equipacio
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Models.Jugador;
 import com.MatanzaTenerifeFS.backend.Entidades.Jugador.Repositories.JugadorRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AsignacionEquipacionService implements IAsignacionEquipacionService {
@@ -51,7 +56,25 @@ public class AsignacionEquipacionService implements IAsignacionEquipacionService
         stock.setCantidadDisponible(stock.getCantidadDisponible() - 1);
 
         AsignacionEquipacion asignacion = new AsignacionEquipacion(equipacion, jugador, talla);
+        asignacion.setEstado(Estado.ENTREGADA);
 
         asignacionEquipacionRepository.save(asignacion);
     }
+
+    public List<AsignacionEquipacionResponse> obtenerEquipacionesPendientes(int playerId) {
+        return asignacionEquipacionRepository
+                .findByJugador_PlayerIdAndEstado(playerId,Estado.ENTREGADA)
+                .stream()
+                .map(this::mapToAsignacionEquipacionResponse)
+                .toList();
+    }
+
+    private AsignacionEquipacionResponse mapToAsignacionEquipacionResponse(AsignacionEquipacion asignacionEquipacion) {
+        return new AsignacionEquipacionResponse(
+                asignacionEquipacion.getEquipacion().getNombre(),
+                asignacionEquipacion.getTalla()
+        );
+
+    }
+
 }
